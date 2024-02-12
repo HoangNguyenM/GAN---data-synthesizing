@@ -1,27 +1,25 @@
-from ctgan.synthesizers.ctgan import CTGANSynthesizer
+from ctgan import CTGAN
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
 
 # prepare the data
 
-X = pd.read_csv("D:/Dropbox/Code/GAN/Data/heart_train.csv")
+X = pd.read_csv("data/heart_train.csv")
 col = X.columns
 print(col)
 
 categorical = ['anaemia','diabetes','high_blood_pressure','sex','smoking']
-X = X.drop('DEATH',axis=1)
+X = X.drop('DEATH', axis=1)
 print(X.shape)
 
 # import CTGAN from the library and train the model
 
-model = CTGANSynthesizer()
-model.fit(X,categorical)
-
-#%%
+model = CTGAN(epochs = 100)
+model.fit(X, categorical)
 
 # we use PCA plot to observe the difference between the real data and synthetic data
-
-from sklearn.decomposition import PCA
 
 gen_data = model.sample(300)
 
